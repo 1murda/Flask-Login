@@ -1,0 +1,28 @@
+{% extends 'layout.html' %} 
+{% block title %}Register{% endblock %}
+{% block body %}
+
+<div class="center">
+    <h1 class="register-title">Create your account</h1>
+    <form action="/account-created" method="POST">
+        <div class="txt_field">
+            <input type="text" name="username" placeholder="Username" required autofocus>
+        </div>
+        <div class="txt_field">
+            <input type="email" name="email" placeholder="Email" required autofocus> 
+        </div>
+        <div class="txt_field">
+            <input type="email" placeholder="Confirm email" required autofocus> 
+        </div>
+        <div class="txt_field">
+            <input type="password" name="password" placeholder="Password" required autofocus> 
+        </div>
+    <div class="sign_up_buttom">
+        <input class="btn btn-primary" type="submit" value="Register">
+    </div>
+    <div class="sign_up">Have an account? <a href="/login">Login</a>.</div>
+            
+    </form>
+</div>
+
+{% endblock %}
