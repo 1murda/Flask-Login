@@ -3,10 +3,10 @@ from flask import (Flask,
                    url_for,
                    request,
                    render_template)
-
 import sqlite3
 import sqlalchemy
 from flask_sqlalchemy import SQLAlchemy
+import bcrypt
 
 App = Flask(__name__)
 
@@ -24,6 +24,21 @@ def home():
 def login():
     return render_template('login.html')
 
+@App.route('/logged',methods=['GET','POST'])
+def logged():
+    new_username = request.form['username']
+    new_password = request.form['password']
+    cursor = connect.execute("SELECT * from USERS_DATA")
+    for user in cursor:
+        decoded_pw = bcrypt.checkpw(new_password.encode("UTF-8"),user[2])
+        if(user[0] == new_username and decoded_pw == True):
+            return f'Welcome {user[0]}.'
+    else:
+        return 'User or password incorrect.'
+    
+    # return render_template('home.html') 
+
+
 @App.route('/register')
 def register():
     return render_template('register.html')
@@ -34,10 +49,11 @@ def create_user():
     new_username = request.form['username']
     new_email = request.form['email']
     new_password = request.form['password']
-    cursor.execute("INSERT INTO USERS_DATA(username,email,password)VALUES(?,?,?)", (new_username, new_email, new_password))
+    hashed_pw = bcrypt.hashpw(new_password.encode("UTF-8"),bcrypt.gensalt())
+    cursor.execute("INSERT INTO USERS_DATA(username,email,password)VALUES(?,?,?)", (new_username, new_email, hashed_pw))
     connect.commit()
     
-    return 'Account created succefully'
+    return redirect('/login')
 
 if __name__ == '__main__':
     App.run(debug=True)
