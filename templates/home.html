@@ -1,15 +1,16 @@
 {% extends 'layout.html' %}
 {% block body %}
-<div class="nav-barto">
-    <nav class="drk-navbar navbar-expand-lg navbar-light bg-light">
-        <div class="collapse navbar-collapse nav_items" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto ">
-                <li class="nav-item "><a href="/home">Home</a></li>
-                <li class="nav-item sexo"><a href="/login">Login</a></li>
-                <li class="nav-item sexo"><a href="/register">Register</a></li>
-            </ul>
-        </div>    
-    </nav>
+<div class="content">
+    <h1 class="welcome">Welcome!</h1>
+    <div class="buttoms">
+        <div class="register-buttom">
+            <a class="btn btn-dark" href="/register">Register</a>
+        </div>
+        <div class="login-buttom">
+            <a class="btn btn-dark" href="/login">Login</a>
+        </div>   
+        
+    </div>
 </div>
 
 {% endblock %}
