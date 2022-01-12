@@ -69,7 +69,6 @@ def create_user():
 
     if request.method == 'POST':
         cursor = connect.cursor()
-        
         new_username = request.form['username']
         new_email = request.form['email']
         new_password = request.form['password']
