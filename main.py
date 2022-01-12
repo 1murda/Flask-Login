@@ -1,5 +1,6 @@
 from flask import (Flask,
                    redirect,
+                   session,
                    url_for,
                    request,
                    render_template)
@@ -22,11 +23,14 @@ def default():
 
 @App.route('/home')
 def home():
+    if('username' in session):
+        username = session['username']
+        return 'Logged in as ' + username + '<br>' + "<b><a href = '/logout'>click here to log out</a></b>"
     return render_template('home.html')
 
 
 @App.route('/login')
-def login():
+def login(methods=['GET']):
     return render_template('login.html')
 
 
@@ -35,9 +39,11 @@ def register():
     return render_template('register.html')
 
 
-@App.route('/logged',methods=['POST'])
+@App.route('/logged',methods=['GET','POST'])
 def logged():
+    
     if request.method == 'POST':
+        session['username'] = request.form['username']
         new_username = request.form['username']
         new_password = request.form['password']
         cursor = connect.execute("SELECT * from USERS_DATA")
@@ -50,7 +56,12 @@ def logged():
 
         return 'User or password incorrect.'
     
-    # return render_template('home.html') 
+    # return render_template('home.html')
+
+@App.route('/logout')
+def logout():
+    session.pop('username', None)
+    return redirect(url_for('home')) 
 
 
 @App.route('/account-created',methods=['POST'])
