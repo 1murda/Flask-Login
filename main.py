@@ -43,7 +43,6 @@ def register():
 def logged():
     
     if request.method == 'POST':
-        session['username'] = request.form['username']
         new_username = request.form['username']
         new_password = request.form['password']
         cursor = connect.execute("SELECT * from USERS_DATA")
@@ -52,6 +51,7 @@ def logged():
             decoded_pw = bcrypt.checkpw(new_password.encode("UTF-8"),user[2])
             
             if(user[0] == new_username and decoded_pw == True):
+                session['username'] = request.form['username']
                 return f'Welcome {user[0]}.'
 
         return 'User or password incorrect.'
@@ -78,6 +78,8 @@ def create_user():
         connect.commit()
         
         return redirect('/login') 
+
+
 
 if __name__ == '__main__':
     App.run(debug=True)
